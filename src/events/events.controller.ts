@@ -14,4 +14,8 @@ export class EventsController {
   async createEvent(@Body() createEventDto: CreateEventDto): Promise<Event> {
     return await this.eventService.createEvent(createEventDto);
   }
+  @Get(':id')
+  async getEventById(){
+      //TODO get by id
+  }
 }
