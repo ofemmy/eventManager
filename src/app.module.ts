@@ -16,7 +16,6 @@ dotenv.config();
       database: process.env.DB_NAME,
       entities: ["dist/**/*.entity{.ts,.js}"],
       synchronize: true,
-      logging: true
     }),
     EventsModule
   ],
