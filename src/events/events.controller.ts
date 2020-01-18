@@ -1,7 +1,8 @@
 import { CreateEventDto } from "./dto/createEvent.dto";
-import { Controller, Post, Body, Get } from "@nestjs/common";
+import { Controller, Post, Body, Get, Put } from "@nestjs/common";
 import { EventsService } from "./events.service";
 import { Event } from "./events.entity";
+import { async } from "rxjs/internal/scheduler/async";
 
 @Controller("events")
 export class EventsController {
@@ -18,4 +19,8 @@ export class EventsController {
   async getEventById(){
       //TODO get by id
   }
+  @Put()
+async updateEvent(@Body() event:Partial<CreateEventDto>){
+
+}
 }
