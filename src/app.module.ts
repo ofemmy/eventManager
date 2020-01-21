@@ -2,21 +2,15 @@ import { Module } from "@nestjs/common";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { EventsModule } from "./events/events.module";
-import { TypeOrmModule } from "@nestjs/typeorm";
+import { MongooseModule } from "@nestjs/mongoose";
 import * as dotenv from "dotenv";
 dotenv.config();
+const options = {
+  useNewUrlParser: true
+};
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: "mysql",
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-      entities: ["dist/**/*.entity{.ts,.js}"],
-      synchronize: true,
-    }),
+    MongooseModule.forRoot(process.env.MONGO_URI, options),
     EventsModule
   ],
   controllers: [AppController],

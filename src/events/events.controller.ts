@@ -15,8 +15,7 @@ import {
   HttpStatus
 } from "@nestjs/common";
 import { EventsService } from "./events.service";
-import { Event } from "./events.entity";
-import { async } from "rxjs/internal/scheduler/async";
+import { Event } from "./interfaces/event.interface";
 
 @Controller("events")
 export class EventsController {
@@ -34,13 +33,13 @@ export class EventsController {
   async getEventById(@Param("id") id: string): Promise<Event> {
     return await this.eventService.getById(id);
   }
-  @Put(":id")
-  @UsePipes(ValidationPipe)
-  async updateEvent(@Body() eventDTO: CreateEventDto) {
-    return await this.eventService.updateById(eventDTO);
-  }
-  @Delete(":id")
-  async deleteEvent(@Param("id") id: string) {
-    await this.eventService.deleteById(id);
-  }
+  // @Put(":id")
+  // @UsePipes(ValidationPipe)
+  // async updateEvent(@Body() eventDTO: CreateEventDto) {
+  //   return await this.eventService.updateById(eventDTO);
+  // }
+  // @Delete(":id")
+  // async deleteEvent(@Param("id") id: string) {
+  //   await this.eventService.deleteById(id);
+  // }
 }

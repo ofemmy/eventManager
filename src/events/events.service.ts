@@ -1,5 +1,4 @@
 import { CreateEventDto } from "./dto/createEvent.dto";
-import { EventRepository } from "./events.repository";
 import {
   Injectable,
   Param,
@@ -7,24 +6,29 @@ import {
   HttpException,
   HttpStatus
 } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Event } from "./events.entity";
+import { Model } from "mongoose";
+import { InjectModel } from "@nestjs/mongoose";
+import { Event } from "./interfaces/event.interface";
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectRepository(EventRepository)
-    private readonly eventRepository: EventRepository
+    @InjectModel("Event")
+    private readonly eventModel: Model<Event>
   ) {}
   async createEvent(createEventDto: CreateEventDto): Promise<Event> {
-    return await this.eventRepository.createEvent(createEventDto);
+    return await this.eventModel.create({
+      title: "Testing a new title",
+      description: "Hey how are you",
+      isPublished: false
+    });
   }
   async getEvents(): Promise<Event[]> {
-    return await this.eventRepository.getEvents();
+    return await this.eventModel.find();
   }
   async getById(id: string): Promise<Event> {
     try {
-      return await this.eventRepository.findOneOrFail(id);
+      return await this.eventModel.findById(id);
     } catch (error) {
       throw new HttpException(
         `Resource with id ${id} not found`,
@@ -32,20 +36,16 @@ export class EventsService {
       );
     }
   }
-  async updateById(eventDTO: CreateEventDto) {
-    const { id } = eventDTO;
-    const evt = await this.getById(id);
-    return await this.eventRepository.save({
-      ...evt,
-      ...eventDTO
-    });
+  // async updateById(eventDTO: CreateEventDto) {
+  //   const { id } = eventDTO;
+  //   const evt = await this.getById(id);
+  //   return await this.eventModel.save({
+  //     ...evt,
+  //     ...eventDTO
+  //   });
 
-    // const res = await this.eventRepository.update(id, eventDTO);
-    // if (res.raw.changedRows === 0) {
-    //   throw new HttpException(`Invalid ID`, HttpStatus.BAD_REQUEST);
-    // }
-  }
-  async deleteById(id:string){
-    return await this.eventRepository.delete(id);
-  }
+  // const res = await this.eventRepository.update(id, eventDTO);
+  // if (res.raw.changedRows === 0) {
+  //   throw new HttpException(`Invalid ID`, HttpStatus.BAD_REQUEST);
+  // }
 }
