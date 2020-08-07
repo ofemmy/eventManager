@@ -28,7 +28,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/mongoose": "^5.5.41",
     "D": "^1.0.0",
-    "class-transformer": "^0.2.3",
+    "class-transformer": "^0.3.1",
     "class-validator": "^0.11.0",
     "dotenv": "^8.2.0",
     "mongoose": "^5.8.9",
